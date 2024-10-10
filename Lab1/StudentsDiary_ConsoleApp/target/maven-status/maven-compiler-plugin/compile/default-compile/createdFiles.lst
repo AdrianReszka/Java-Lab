@@ -1,0 +1,8 @@
+Controller\StudentController.class
+Model\Grade.class
+Controller\StudentListController.class
+View\StudentListView.class
+Model\Student.class
+Model\StudentList.class
+com\mycompany\studentsdiary_consoleapp\StudentsDiary_ConsoleApp.class
+View\StudentView.class

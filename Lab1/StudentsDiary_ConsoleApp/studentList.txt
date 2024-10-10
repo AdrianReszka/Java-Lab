@@ -1,0 +1,4 @@
+1;Karol;Ziaja
+4.5;Drabik;TUC
+3.5;Krzysztof Paszek;Grafika Komputerowa
+END
