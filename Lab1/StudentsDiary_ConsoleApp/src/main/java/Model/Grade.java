@@ -35,7 +35,6 @@ public class Grade {
         this.subject = subject;
     }
 
-    @Override
     public String toString() {
         return "Grade: " + value + ", Teacher: " + teacher + ", Subject: " + subject;
     }

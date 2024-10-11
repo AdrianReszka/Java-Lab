@@ -1,9 +1,9 @@
 package Controller;
 
-import Model.Grade;
-import Model.Student;
-import Model.StudentList;
+import Model.*;
 import View.StudentListView;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StudentListController {
     private StudentList studentList;
@@ -26,10 +26,18 @@ public class StudentListController {
             if (student != null) {
                 student.addGrade(gradeValue, teacher, subject);
             } else {
-                System.out.println("Student with ID " + studentId + " not found.");
+                try {
+                    throw new StudentNotFoundException(studentId);
+                } catch (StudentNotFoundException ex) {
+                    Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid grade format. Please use a number with a dot or comma.");
+            try {
+                throw new InvalidGradeFormatException(gradeInput);
+            } catch (InvalidGradeFormatException ex) {
+                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -40,14 +48,18 @@ public class StudentListController {
             student.setSurname(newSurname);
             System.out.println("Student data updated.");
         } else {
-            System.out.println("Student with ID " + studentId + " not found.");
+            try {
+                throw new StudentNotFoundException(studentId);
+            } catch (StudentNotFoundException ex) {
+                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     public void editGradeForStudent(int studentId, int gradeIndex, String gradeInput, String newTeacher, String newSubject) {
+        gradeInput = gradeInput.replace(",", ".");
         Student student = studentList.findStudentById(studentId);
         if (student != null) {
-            gradeInput = gradeInput.replace(",", ".");
             try {
                 double newGradeValue = Double.parseDouble(gradeInput);
                 if (gradeIndex >= 0 && gradeIndex < student.getGrades().size()) {
@@ -57,34 +69,54 @@ public class StudentListController {
                     grade.setSubject(newSubject);
                     System.out.println("Grade updated.");
                 } else {
-                    System.out.println("Invalid grade index.");
+                    try {
+                        throw new InvalidGradeIndexException(gradeIndex);
+                    } catch (InvalidGradeIndexException ex) {
+                        Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid grade format. Please use a number with a dot or comma.");
+                try {
+                    throw new InvalidGradeFormatException(gradeInput);
+                } catch (InvalidGradeFormatException ex) {
+                    Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
-            System.out.println("Student with ID " + studentId + " not found.");
+            try {
+                throw new StudentNotFoundException(studentId);
+            } catch (StudentNotFoundException ex) {
+                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     public void removeStudent(int studentId) {
-        if (studentList.removeStudentById(studentId)) {
-            System.out.println("Student with ID " + studentId + " has been removed.");
-        } else {
-            System.out.println("Student with ID " + studentId + " not found.");
+        if (!studentList.removeStudentById(studentId)) {
+            try {
+                throw new StudentNotFoundException(studentId);
+            } catch (StudentNotFoundException ex) {
+                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
-    public void removeGradeFromStudent(int studentId, int gradeIndex) {
+    public void removeGradeFromStudent(int studentId, int gradeIndex)  {
         Student student = studentList.findStudentById(studentId);
         if (student != null) {
-            if (student.removeGrade(gradeIndex)) {
-                System.out.println("Grade " + (gradeIndex + 1) + " has been removed.");
-            } else {
-                System.out.println("Invalid grade index.");
+            if (!student.removeGrade(gradeIndex)) {
+                try {
+                    throw new InvalidGradeIndexException(gradeIndex);
+                } catch (InvalidGradeIndexException ex) {
+                    Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
-            System.out.println("Student with ID " + studentId + " not found.");
+            try {
+                throw new StudentNotFoundException(studentId);
+            } catch (StudentNotFoundException ex) {
+                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -92,8 +124,7 @@ public class StudentListController {
         studentListView.printStudents(studentList.students);
     }
     
-     public StudentList getStudentList() {
+    public StudentList getStudentList() {
         return studentList;
     }
-
 }

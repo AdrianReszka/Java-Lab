@@ -1,8 +1,9 @@
 package Controller;
 
-import Model.StudentList;
+import Model.*;
 import View.MainMenuView;
-import View.StudentListView;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainMenuController {
 
@@ -17,8 +18,11 @@ public class MainMenuController {
     }
 
     public void start() {
-        // Odczyt listy studentów z pliku na początku
-        studentListController.getStudentList().loadFromFile(filename);
+        try {
+            studentListController.getStudentList().loadFromFile(filename);
+        } catch (FileLoadException ex) {
+            Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         boolean running = true;
 
@@ -30,36 +34,36 @@ public class MainMenuController {
                 case 1:
                     addStudent();
                     break;
-
+                    
                 case 2:
                     addGradeToStudent();
                     break;
-
+                    
                 case 3:
                     removeStudent();
                     break;
-
+                    
                 case 4:
                     removeGradeFromStudent();
                     break;
-
+                    
                 case 5:
                     displayStudents();
                     break;
-
+                    
                 case 6:
                     editStudentData();
                     break;
-
+                    
                 case 7:
                     editStudentGrade();
                     break;
-
+                    
                 case 8:
                     exitProgram();
                     running = false;
                     break;
-
+                    
                 default:
                     menuView.showInvalidOptionMessage();
             }
@@ -113,7 +117,11 @@ public class MainMenuController {
     }
 
     private void exitProgram() {
-        studentListController.getStudentList().saveToFile(filename);
+        try {
+            studentListController.getStudentList().saveToFile(filename);
+        } catch (FileSaveException ex) {
+            Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         menuView.showExitMessage();
     }
 }

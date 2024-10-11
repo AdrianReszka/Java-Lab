@@ -21,16 +21,15 @@ public class StudentList {
     }
 
     public boolean removeStudentById(int id) {
-        for (Student student : students) {
-            if (student.getId() == id) {
-                students.remove(student);
-                return true;
-            }
+        Student student = findStudentById(id);
+        if (student != null) {
+            students.remove(student);
+            return true;
         }
         return false;
     }
 
-    public void saveToFile(String filename) {
+    public void saveToFile(String filename) throws FileSaveException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Student student : students) {
                 writer.write(student.getId() + ";" + student.getName() + ";" + student.getSurname());
@@ -40,23 +39,22 @@ public class StudentList {
                     writer.write(grade.getValue() + ";" + grade.getTeacher() + ";" + grade.getSubject());
                     writer.newLine();
                 }
-                writer.write("END"); 
+                writer.write("END");
                 writer.newLine();
             }
-            System.out.println("Student list saved to " + filename);
         } catch (IOException e) {
-            System.out.println("Error saving student list: " + e.getMessage());
+            throw new FileSaveException(filename);
         }
     }
 
-    public void loadFromFile(String filename) {
+    public void loadFromFile(String filename) throws FileLoadException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             Student currentStudent = null;
 
             while ((line = reader.readLine()) != null) {
                 if (line.equals("END")) {
-                    currentStudent = null;  
+                    currentStudent = null;
                     continue;
                 }
 
@@ -69,22 +67,14 @@ public class StudentList {
                     currentStudent = new Student(name, surname, id);
                     students.add(currentStudent);
                 } else if (data.length == 3 && currentStudent != null) {
-                    try {
-                        double gradeValue = Double.parseDouble(data[0]);
-                        String teacher = data[1];
-                        String subject = data[2];
-                        currentStudent.addGrade(gradeValue, teacher, subject);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid grade format in file for student: " + currentStudent.getName());
-                    }
+                    double gradeValue = Double.parseDouble(data[0]);
+                    String teacher = data[1];
+                    String subject = data[2];
+                    currentStudent.addGrade(gradeValue, teacher, subject);
                 }
             }
-            System.out.println("Student list loaded from " + filename);
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filename + ". Starting with an empty list.");
         } catch (IOException e) {
-            System.out.println("Error loading student list: " + e.getMessage());
+            throw new FileLoadException(filename);
         }
     }
-
 }
