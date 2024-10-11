@@ -2,3 +2,6 @@
 4.5;Drabik;TUC
 3.5;Krzysztof Paszek;Grafika Komputerowa
 END
+2;Michal;Walus
+3.5;Jaroslaw Paduch;Teoria Ukladow Cyfrowych
+END

@@ -91,4 +91,9 @@ public class StudentListController {
     public void updateView() {
         studentListView.printStudents(studentList.students);
     }
+    
+     public StudentList getStudentList() {
+        return studentList;
+    }
+
 }
