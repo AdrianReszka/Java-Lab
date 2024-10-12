@@ -1,9 +1,7 @@
 package Controller;
-
 import Model.*;
 import View.StudentListView;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Controller responsible for managing a list of students and handling the interaction between the model and the view.
@@ -67,15 +65,13 @@ public class StudentListController {
                 throw new StudentNotFoundException(studentId);
             }
         } catch (NumberFormatException e) {
-            try {
-                throw new InvalidGradeFormatException(gradeInput);
-            } catch (InvalidGradeFormatException ex) {
-                throw new RuntimeException(ex);
-            }
-        } catch (StudentNotFoundException ex) {
-            Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Invalid grade format: " + gradeInput);
+        } catch (StudentNotFoundException e) {
+            System.err.println(e.getMessage() + " for student ID: " + studentId);
         }
     }
+
+
 
     /**
      * Edits the data of a specific student identified by ID.
@@ -85,19 +81,20 @@ public class StudentListController {
      * @param newSurname the new surname for the student
      */
     public void editStudentData(int studentId, String newName, String newSurname) {
-        Student student = studentList.findStudentById(studentId);
-        if (student != null) {
-            student.setName(newName);
-            student.setSurname(newSurname);
-            System.out.println("Student data updated.");
-        } else {
-            try {
+        try {
+            Student student = studentList.findStudentById(studentId);
+            if (student != null) {
+                student.setName(newName);
+                student.setSurname(newSurname);
+                System.out.println("Student data updated.");
+            } else {
                 throw new StudentNotFoundException(studentId);
-            } catch (StudentNotFoundException ex) {
-                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (StudentNotFoundException e) {
+            System.err.println(e.getMessage() + " for student ID: " + studentId);
         }
     }
+
 
     /**
      * Edits a specific grade of a student identified by ID and grade index.
@@ -127,15 +124,14 @@ public class StudentListController {
                 throw new StudentNotFoundException(studentId);
             }
         } catch (NumberFormatException e) {
-            try {
-                throw new InvalidGradeFormatException(gradeInput);
-            } catch (InvalidGradeFormatException ex) {
-                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (InvalidGradeIndexException | StudentNotFoundException ex) {
-            Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Invalid grade format: " + gradeInput);
+        } catch (InvalidGradeIndexException e) {
+            System.err.println(e.getMessage() + " for grade index: " + gradeIndex);
+        } catch (StudentNotFoundException e) {
+            System.err.println(e.getMessage() + " for student ID: " + studentId);
         }
     }
+
 
     /**
      * Removes a student from the list by ID.
@@ -143,15 +139,18 @@ public class StudentListController {
      * @param studentId the ID of the student to be removed
      */
     public void removeStudent(int studentId) {
-        boolean removed = studentList.removeStudentById(studentId);
-        if (!removed) {
-            try {
+        try {
+            boolean removed = studentList.removeStudentById(studentId);
+            if (!removed) {
                 throw new StudentNotFoundException(studentId);
-            } catch (StudentNotFoundException ex) {
-                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                System.out.println("Student removed.");
             }
+        } catch (StudentNotFoundException e) {
+            System.err.println(e.getMessage() + " for student ID: " + studentId);
         }
     }
+
 
     /**
      * Removes a grade from a student identified by ID and grade index.
@@ -160,23 +159,24 @@ public class StudentListController {
      * @param gradeIndex the index of the grade to be removed
      */
     public void removeGradeFromStudent(int studentId, int gradeIndex) {
-        Student student = studentList.findStudentById(studentId);
-        if (student != null) {
-            if (!student.removeGrade(gradeIndex)) {
-                try {
+        try {
+            Student student = studentList.findStudentById(studentId);
+            if (student != null) {
+                if (!student.removeGrade(gradeIndex)) {
                     throw new InvalidGradeIndexException(gradeIndex);
-                } catch (InvalidGradeIndexException ex) {
-                    Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    System.out.println("Grade removed.");
                 }
-            }
-        } else {
-            try {
+            } else {
                 throw new StudentNotFoundException(studentId);
-            } catch (StudentNotFoundException ex) {
-                Logger.getLogger(StudentListController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (InvalidGradeIndexException e) {
+            System.err.println(e.getMessage() + " for grade index: " + gradeIndex);
+        } catch (StudentNotFoundException e) {
+            System.err.println(e.getMessage() + " for student ID: " + studentId);
         }
     }
+
 
     /**
      * Updates the view with the current list of students.

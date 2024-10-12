@@ -2,8 +2,6 @@ package Controller;
 
 import Model.*;
 import View.MainMenuView;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Controller responsible for handling the main menu interactions in the application.
@@ -50,7 +48,7 @@ public class MainMenuController {
         try {
             studentListController.getStudentList().loadFromFile(filename);
         } catch (FileLoadException ex) {
-            Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Problem with loading file: " + filename + " - " + ex.getMessage());
         }
 
         boolean running = true;
@@ -161,11 +159,13 @@ public class MainMenuController {
     /**
      * Exits the program by saving the student data to a file and showing an exit message.
      */
+
+    //Poprawic catcha - nie moze byc throw
     private void exitProgram() {
         try {
             studentListController.getStudentList().saveToFile(filename);
         } catch (FileSaveException ex) {
-            Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Problem with saving file: " + filename, ex);
         }
         menuView.showExitMessage();
     }
