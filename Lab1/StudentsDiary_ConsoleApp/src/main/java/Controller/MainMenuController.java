@@ -45,7 +45,7 @@ public class MainMenuController {
      */
     public void start() {
         try {
-            studentListController.getStudentList().loadFromFile(filename);
+            studentListController.loadStudentListFromFile(filename);
         } catch (FileLoadException ex) {
             System.err.println("Problem with loading file: " + filename + " - " + ex.getMessage());
         }
@@ -158,13 +158,11 @@ public class MainMenuController {
     /**
      * Exits the program by saving the student data to a file and showing an exit message.
      */
-
-    //Poprawic catcha - nie moze byc throw
     private void exitProgram() {
         try {
-            studentListController.getStudentList().saveToFile(filename);
+            studentListController.saveStudentListToFile(filename);
         } catch (FileSaveException ex) {
-            throw new RuntimeException("Problem with saving file: " + filename, ex);
+            System.err.println("Problem with loading file: " + filename + " - " + ex.getMessage());
         }
         menuView.showExitMessage();
     }

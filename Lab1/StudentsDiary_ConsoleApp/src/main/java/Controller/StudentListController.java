@@ -186,6 +186,25 @@ public class StudentListController {
         }
     }
 
+    /**
+     * Saves the student list to a file.
+     *
+     * @param filename the name of the file to save to
+     * @throws FileSaveException if an error occurs during saving
+     */
+    public void saveStudentListToFile(String filename) throws FileSaveException {
+        studentList.saveToFile(filename);
+    }
+
+    /**
+     * Loads the student list from a file.
+     *
+     * @param filename the name of the file to load from
+     * @throws FileLoadException if an error occurs during loading
+     */
+    public void loadStudentListFromFile(String filename) throws FileLoadException {
+        studentList.loadFromFile(filename);
+    }
 
     /**
      * Updates the view with the current list of students.
@@ -203,3 +222,8 @@ public class StudentListController {
         return studentList;
     }
 }
+
+
+
+
+
