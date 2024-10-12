@@ -12,7 +12,6 @@ import View.MainMenuView;
  */
 public class MainMenuController {
 
-
     /**
      * The controller responsible for managing student data, such as adding, removing, and updating students.
      */

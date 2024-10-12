@@ -31,27 +31,12 @@ public class StudentList {
     }
 
     /**
-     * Finds a student in the list by their ID.
-     *
-     * @param id the student's ID
-     * @return the student with the specified ID, or null if not found
-     */
-    public Student findStudentById(int id) {
-        for (Student student : students) {
-            if (student.getId() == id) {
-                return student;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Removes a student from the list based on their ID.
      *
      * @param id the student's ID
      * @return true if the student was successfully removed, false if not found
      */
-    public boolean removeStudentById(int id) {
+    public boolean removeStudentById(int id) throws StudentNotFoundException {
         Student student = findStudentById(id);
         if (student != null) {
             students.remove(student);
@@ -80,7 +65,7 @@ public class StudentList {
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new FileSaveException(filename);
+            System.err.println(e.getMessage());
         }
     }
 
@@ -117,7 +102,25 @@ public class StudentList {
                 }
             }
         } catch (IOException e) {
-            throw new FileLoadException(filename);
+            System.err.println(e.getMessage());
         }
     }
+
+    /**
+     * Finds a student by their ID.
+     *
+     * @param id the ID of the student to find
+     * @return the Student object if found
+     * @throws StudentNotFoundException if no student with the given ID exists
+     */
+    public Student findStudentById(int id) throws StudentNotFoundException {
+        for (Student student : students) {
+            if (student.getId() == id) {
+                return student;
+            }
+        }
+        throw new StudentNotFoundException(id);
+    }
+
+
 }

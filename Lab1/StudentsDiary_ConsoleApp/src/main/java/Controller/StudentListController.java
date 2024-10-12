@@ -43,7 +43,16 @@ public class StudentListController {
      * @param surname the student's last name
      */
     public void createNewStudent(int id, String name, String surname) {
-        studentList.addStudent(id, name, surname);
+        try {
+            Student existingStudent = studentList.findStudentById(id);
+            if (existingStudent != null) {
+                throw new StudentAlreadyExistsException(id);
+            }
+            studentList.addStudent(id, name, surname);
+            System.err.println("Student with ID " + id + " has been added.");
+        } catch (StudentAlreadyExistsException | StudentNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     /**
