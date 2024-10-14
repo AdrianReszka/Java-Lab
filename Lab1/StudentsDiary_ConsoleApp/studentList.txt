@@ -1,10 +1,2 @@
 1;Karol;Ziaja
-4.5;Drabik;TUC
-3.5;Krzysztof Paszek;Grafika Komputerowa
-END
-2;Michal;Walus
-3.5;Jaroslaw Paduch;Teoria Ukladow Cyfrowych
-END
-3;Julia;Zolty
-2.5;Jaroslaw Paduch;SMIW
 END

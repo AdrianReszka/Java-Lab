@@ -1,7 +1,10 @@
 package Controller;
 
 import Model.*;
+import View.ErrorMessage;
 import View.MainMenuView;
+
+import java.io.IOException;
 
 /**
  * Controller responsible for handling the main menu interactions in the application.
@@ -44,11 +47,7 @@ public class MainMenuController {
      * Starts the main loop of the application, displaying the menu and handling user choices.
      */
     public void start() {
-        try {
-            studentListController.loadStudentListFromFile(filename);
-        } catch (FileLoadException ex) {
-            System.err.println("Problem with loading file: " + filename + " - " + ex.getMessage());
-        }
+        studentListController.loadStudentListFromFile(filename);
 
         boolean running = true;
 
@@ -103,7 +102,7 @@ public class MainMenuController {
      */
     private void addGradeToStudent() {
         int studentId = menuView.getStudentIdInput();
-        String grade = menuView.getGradeInput();
+        String grade = menuView.getGradeInput().replace(',', '.');
         String teacher = menuView.getTeacherInput();
         String subject = menuView.getSubjectInput();
         studentListController.addGradeToStudent(studentId, grade, teacher, subject);
@@ -149,21 +148,17 @@ public class MainMenuController {
     private void editStudentGrade() {
         int studentId = menuView.getStudentIdInput();
         int gradeIndex = menuView.getGradeIndexInput() - 1;
-        String newGrade = menuView.getGradeInput();
+        String newGrade = menuView.getGradeInput().replace(',', '.');
         String newTeacher = menuView.getTeacherInput();
         String newSubject = menuView.getSubjectInput();
-        studentListController.editGradeForStudent(studentId, gradeIndex, newGrade, newTeacher, newSubject);
+        studentListController.editGradeForStudent(studentId, gradeIndex, Double.parseDouble(newGrade), newTeacher, newSubject);
     }
 
     /**
      * Exits the program by saving the student data to a file and showing an exit message.
      */
     private void exitProgram() {
-        try {
-            studentListController.saveStudentListToFile(filename);
-        } catch (FileSaveException ex) {
-            System.err.println("Problem with loading file: " + filename + " - " + ex.getMessage());
-        }
+        studentListController.saveStudentListToFile(filename);
         menuView.showExitMessage();
     }
 }

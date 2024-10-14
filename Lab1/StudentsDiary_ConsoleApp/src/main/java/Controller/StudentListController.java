@@ -1,6 +1,9 @@
 package Controller;
 import Model.*;
 import View.StudentListView;
+import View.ErrorMessage;
+
+import java.io.IOException;
 
 
 /**
@@ -45,13 +48,45 @@ public class StudentListController {
     public void createNewStudent(int id, String name, String surname) {
         try {
             Student existingStudent = studentList.findStudentById(id);
-            if (existingStudent != null) {
-                throw new StudentAlreadyExistsException(id);
-            }
+            System.out.println("Student with ID " + id + " already exists.");
+        } catch (StudentNotFoundException e) {
             studentList.addStudent(id, name, surname);
-            System.err.println("Student with ID " + id + " has been added.");
-        } catch (StudentAlreadyExistsException | StudentNotFoundException e) {
-            System.err.println(e.getMessage());
+            System.out.println("Student with ID " + id + " has been added.");
+        }
+    }
+
+    /**
+     * Removes a student from the list by ID.
+     *
+     * @param studentId the ID of the student to be removed
+     */
+    public void removeStudent(int studentId) {
+        try {
+            boolean removed = studentList.removeStudent(studentId);
+            if (removed) {
+                System.out.println("Student removed.");
+            }
+        } catch (StudentNotFoundException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Edits the data of a specific student identified by ID.
+     *
+     * @param studentId the ID of the student to be edited
+     * @param newName the new name for the student
+     * @param newSurname the new surname for the student
+     */
+    public void editStudentData(int studentId, String newName, String newSurname) {
+        try {
+            studentList.editStudentData(studentId, newName, newSurname);
+            System.out.println("Student data updated.");
+        } catch (StudentNotFoundException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
         }
     }
 
@@ -64,102 +99,14 @@ public class StudentListController {
      * @param subject the subject for which the grade is given
      */
     public void addGradeToStudent(int studentId, String gradeInput, String teacher, String subject) {
-        gradeInput = gradeInput.replace(",", ".");
         try {
-            double gradeValue = Double.parseDouble(gradeInput);
-            Student student = studentList.findStudentById(studentId);
-            if (student != null) {
-                student.addGrade(gradeValue, teacher, subject);
-            } else {
-                throw new StudentNotFoundException(studentId);
-            }
-        } catch (NumberFormatException e) {
-            System.err.println("Invalid grade format: " + gradeInput);
-        } catch (StudentNotFoundException e) {
-            System.err.println(e.getMessage() + " for student ID: " + studentId);
+            studentList.addGradeToStudent(studentId, gradeInput, teacher, subject);
+            System.out.println(("Grade added successfully."));
+        } catch (StudentNotFoundException |  InvalidGradeFormatException | InvalidGradeIndexException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
         }
     }
-
-
-
-    /**
-     * Edits the data of a specific student identified by ID.
-     *
-     * @param studentId the ID of the student to be edited
-     * @param newName the new name for the student
-     * @param newSurname the new surname for the student
-     */
-    public void editStudentData(int studentId, String newName, String newSurname) {
-        try {
-            Student student = studentList.findStudentById(studentId);
-            if (student != null) {
-                student.setName(newName);
-                student.setSurname(newSurname);
-                System.out.println("Student data updated.");
-            } else {
-                throw new StudentNotFoundException(studentId);
-            }
-        } catch (StudentNotFoundException e) {
-            System.err.println(e.getMessage() + " for student ID: " + studentId);
-        }
-    }
-
-
-    /**
-     * Edits a specific grade of a student identified by ID and grade index.
-     *
-     * @param studentId the ID of the student
-     * @param gradeIndex the index of the grade to be edited
-     * @param gradeInput the new grade value as a string
-     * @param newTeacher the new teacher for the grade
-     * @param newSubject the new subject for the grade
-     */
-    public void editGradeForStudent(int studentId, int gradeIndex, String gradeInput, String newTeacher, String newSubject) {
-        gradeInput = gradeInput.replace(",", ".");
-        try {
-            double newGradeValue = Double.parseDouble(gradeInput);
-            Student student = studentList.findStudentById(studentId);
-            if (student != null) {
-                if (gradeIndex >= 0 && gradeIndex < student.getGrades().size()) {
-                    Grade grade = student.getGrades().get(gradeIndex);
-                    grade.setValue(newGradeValue);
-                    grade.setTeacher(newTeacher);
-                    grade.setSubject(newSubject);
-                    System.out.println("Grade updated.");
-                } else {
-                    throw new InvalidGradeIndexException(gradeIndex);
-                }
-            } else {
-                throw new StudentNotFoundException(studentId);
-            }
-        } catch (NumberFormatException e) {
-            System.err.println("Invalid grade format: " + gradeInput);
-        } catch (InvalidGradeIndexException e) {
-            System.err.println(e.getMessage() + " for grade index: " + gradeIndex);
-        } catch (StudentNotFoundException e) {
-            System.err.println(e.getMessage() + " for student ID: " + studentId);
-        }
-    }
-
-
-    /**
-     * Removes a student from the list by ID.
-     *
-     * @param studentId the ID of the student to be removed
-     */
-    public void removeStudent(int studentId) {
-        try {
-            boolean removed = studentList.removeStudentById(studentId);
-            if (!removed) {
-                throw new StudentNotFoundException(studentId);
-            } else {
-                System.out.println("Student removed.");
-            }
-        } catch (StudentNotFoundException e) {
-            System.err.println(e.getMessage() + " for student ID: " + studentId);
-        }
-    }
-
 
     /**
      * Removes a grade from a student identified by ID and grade index.
@@ -169,20 +116,31 @@ public class StudentListController {
      */
     public void removeGradeFromStudent(int studentId, int gradeIndex) {
         try {
-            Student student = studentList.findStudentById(studentId);
-            if (student != null) {
-                if (!student.removeGrade(gradeIndex)) {
-                    throw new InvalidGradeIndexException(gradeIndex);
-                } else {
-                    System.out.println("Grade removed.");
-                }
-            } else {
-                throw new StudentNotFoundException(studentId);
-            }
-        } catch (InvalidGradeIndexException e) {
-            System.err.println(e.getMessage() + " for grade index: " + gradeIndex);
-        } catch (StudentNotFoundException e) {
-            System.err.println(e.getMessage() + " for student ID: " + studentId);
+            studentList.removeGradeFromStudent(studentId, gradeIndex);
+            System.out.println("Grade removed successfully.");
+        } catch (StudentNotFoundException | InvalidGradeIndexException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Edits a specific grade of a student identified by ID and grade index.
+     *
+     * @param studentId the ID of the student
+     * @param gradeIndex the index of the grade to be edited
+     * @param newGradeValue the new grade value as a string
+     * @param newTeacher the new teacher for the grade
+     * @param newSubject the new subject for the grade
+     */
+    public void editGradeForStudent(int studentId, int gradeIndex, double newGradeValue, String newTeacher, String newSubject) {
+        try {
+            studentList.editStudentGrade(studentId, gradeIndex, newGradeValue, newTeacher, newSubject);
+            System.out.println("Grade updated successfully.");
+        } catch (StudentNotFoundException | InvalidGradeIndexException | InvalidGradeFormatException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
         }
     }
 
@@ -190,20 +148,28 @@ public class StudentListController {
      * Saves the student list to a file.
      *
      * @param filename the name of the file to save to
-     * @throws FileSaveException if an error occurs during saving
      */
-    public void saveStudentListToFile(String filename) throws FileSaveException {
-        studentList.saveToFile(filename);
+    public void saveStudentListToFile(String filename) {
+        try {
+            studentList.saveToFile(filename);
+        } catch (IOException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
+        }
     }
 
     /**
      * Loads the student list from a file.
      *
      * @param filename the name of the file to load from
-     * @throws FileLoadException if an error occurs during loading
      */
-    public void loadStudentListFromFile(String filename) throws FileLoadException {
-        studentList.loadFromFile(filename);
+    public void loadStudentListFromFile(String filename) {
+        try {
+            studentList.loadFromFile(filename);
+        } catch (IOException e) {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.printErrorMessage(e.getMessage());
+        }
     }
 
     /**
