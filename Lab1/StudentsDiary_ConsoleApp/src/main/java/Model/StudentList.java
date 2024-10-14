@@ -24,9 +24,16 @@ public class StudentList {
      * @param id the student's ID
      * @param name the student's name
      * @param surname the student's surname
+     * @throws StudentAlreadyExistsException if the student with specified id exists
+     * @throws StudentNotFoundException if the student does not already exist
      */
-    public void addStudent(int id, String name, String surname) {
+    public void addStudent(int id, String name, String surname) throws StudentAlreadyExistsException, StudentNotFoundException {
         Student student = new Student(name, surname, id);
+        Student existingStudent = findStudentById(id);
+
+        if (existingStudent != null) {
+            throw new StudentAlreadyExistsException();
+        }
         students.add(student);
     }
 
@@ -34,18 +41,17 @@ public class StudentList {
      * Removes a student from the list based on their ID.
      *
      * @param id the student's ID
-     * @return true if the student was successfully removed
      * @throws StudentNotFoundException if student with specified id was not found
      */
-    public boolean removeStudent(int id) throws StudentNotFoundException {
+    public void removeStudent(int id) throws StudentNotFoundException {
         Student student = findStudentById(id);
         if (student != null) {
             students.remove(student);
-            return true;
+            return;
         }
         throw new StudentNotFoundException();
     }
-    
+
     /**
      * Edits the data of a specific student identified by ID.
      *

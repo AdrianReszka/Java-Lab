@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.*;
-import View.ErrorMessage;
+import Model.MessagePrinter;
 import View.MainMenuView;
 
 import java.io.IOException;
