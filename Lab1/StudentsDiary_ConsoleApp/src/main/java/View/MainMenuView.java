@@ -64,8 +64,18 @@ public class MainMenuView {
      * @return The entered student ID as an integer.
      */
     public int getStudentIdInput() {
-        System.out.print("Enter student ID: ");
-        return scanner.nextInt();
+        int id = -1;
+        while (true) {
+            System.out.print("Enter student ID (must be an integer): ");
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter a valid integer ID.");
+                scanner.next();
+            }
+        }
+        return id;
     }
 
     /**
