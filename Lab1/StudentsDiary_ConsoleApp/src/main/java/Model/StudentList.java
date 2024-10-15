@@ -33,10 +33,8 @@ public class StudentList {
         if (existingStudent != null) {
             throw new StudentAlreadyExistsException();
         }
-
         Student student = new Student(name, surname, id);
         students.add(student);
-        System.out.println("Student added!!!!");
     }
 
     /**

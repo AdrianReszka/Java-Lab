@@ -28,6 +28,10 @@ public class StudentListController {
     private StudentListView studentListView;
 
     /**
+     * The messagePrinter object responsible for printing error and success messages
+     */
+    private MessagePrinter messagePrinter;
+    /**
      * Constructs a new StudentListController.
      *
      * @param studentList the student list model to be managed
@@ -46,7 +50,7 @@ public class StudentListController {
      * @param surname the student's last name
      */
     public void createNewStudent(int id, String name, String surname) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+        messagePrinter = new MessagePrinter();
         try {
             studentList.addStudent(id, name, surname);
         } catch (StudentAlreadyExistsException e) {
@@ -62,7 +66,7 @@ public class StudentListController {
      * @param studentId the ID of the student to be removed
      */
     public void removeStudent(int studentId) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+        messagePrinter = new MessagePrinter();
         try {
             studentList.removeStudent(studentId);
             messagePrinter.printSuccessMessage();
@@ -80,7 +84,7 @@ public class StudentListController {
      * @param newSurname the new surname for the student
      */
     public void editStudentData(int studentId, String newName, String newSurname) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+        messagePrinter = new MessagePrinter();
         try {
             studentList.editStudentData(studentId, newName, newSurname);
             messagePrinter.printSuccessMessage();
@@ -98,7 +102,7 @@ public class StudentListController {
      * @param subject the subject for which the grade is given
      */
     public void addGradeToStudent(int studentId, String gradeInput, String teacher, String subject) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+        messagePrinter = new MessagePrinter();
         try {
             studentList.addGradeToStudent(studentId, gradeInput, teacher, subject);
             messagePrinter.printSuccessMessage();
@@ -114,7 +118,7 @@ public class StudentListController {
      * @param gradeIndex the index of the grade to be removed
      */
     public void removeGradeFromStudent(int studentId, int gradeIndex) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+        messagePrinter = new MessagePrinter();
         try {
             studentList.removeGradeFromStudent(studentId, gradeIndex);
             messagePrinter.printSuccessMessage();
@@ -134,7 +138,7 @@ public class StudentListController {
      * @param newSubject the new subject for the grade
      */
     public void editGradeForStudent(int studentId, int gradeIndex, double newGradeValue, String newTeacher, String newSubject) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+        messagePrinter = new MessagePrinter();
         try {
             studentList.editStudentGrade(studentId, gradeIndex, newGradeValue, newTeacher, newSubject);
             messagePrinter.printSuccessMessage();
@@ -152,7 +156,7 @@ public class StudentListController {
         try {
             studentList.saveToFile(filename);
         } catch (IOException e) {
-            MessagePrinter messagePrinter = new MessagePrinter();
+            messagePrinter = new MessagePrinter();
             messagePrinter.printErrorMessage(e.getMessage());
         }
     }
@@ -166,7 +170,7 @@ public class StudentListController {
         try {
             studentList.loadFromFile(filename);
         } catch (IOException e) {
-            MessagePrinter messagePrinter = new MessagePrinter();
+            messagePrinter = new MessagePrinter();
             messagePrinter.printErrorMessage(e.getMessage());
         }
     }

@@ -24,4 +24,12 @@ public class MessagePrinter {
     public void printSuccessMessage() {
         System.out.println("Operation successful!");
     }
+
+    /**
+     * Method responsible for printing the asking for input message
+     * @param message the message to print
+     */
+    public void printInputMessage(String message) {
+        System.out.print(message);
+    }
 }

@@ -1,4 +1,7 @@
-1;Karol;Ziaja
+3;Adrian;Reszka
 END
-2;Julia;Zolty
+1;Michal;Kaminski
+3.5;Paduch;TUC
+END
+6;Gosia;Grzelak
 END
