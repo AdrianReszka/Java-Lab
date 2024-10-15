@@ -69,13 +69,13 @@ public class MainMenuView {
             System.out.print("Enter student ID (must be an integer): ");
             if (scanner.hasNextInt()) {
                 id = scanner.nextInt();
-                break;
+                return id; 
             } else {
                 System.out.println("Invalid input. Please enter a valid integer ID.");
                 scanner.next();
+                return -1;
             }
         }
-        return id;
     }
 
     /**

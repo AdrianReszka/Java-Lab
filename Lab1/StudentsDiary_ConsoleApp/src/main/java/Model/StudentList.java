@@ -28,13 +28,15 @@ public class StudentList {
      * @throws StudentNotFoundException if the student does not already exist
      */
     public void addStudent(int id, String name, String surname) throws StudentAlreadyExistsException, StudentNotFoundException {
-        Student student = new Student(name, surname, id);
         Student existingStudent = findStudentById(id);
 
         if (existingStudent != null) {
             throw new StudentAlreadyExistsException();
         }
+
+        Student student = new Student(name, surname, id);
         students.add(student);
+        System.out.println("Student added!!!!");
     }
 
     /**
@@ -172,15 +174,14 @@ public class StudentList {
      *
      * @param id the ID of the student to find
      * @return the Student object if found
-     * @throws StudentNotFoundException if no student with the given ID exists
      */
-    public Student findStudentById(int id) throws StudentNotFoundException {
+    public Student findStudentById(int id) {
         for (Student student : students) {
             if (student.getId() == id) {
                 return student;
             }
         }
-        throw new StudentNotFoundException();
+        return null;
     }
 
     /**

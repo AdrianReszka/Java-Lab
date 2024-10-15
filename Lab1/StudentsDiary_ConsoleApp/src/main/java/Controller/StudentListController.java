@@ -62,10 +62,11 @@ public class StudentListController {
      * @param studentId the ID of the student to be removed
      */
     public void removeStudent(int studentId) {
+        MessagePrinter messagePrinter = new MessagePrinter();
         try {
             studentList.removeStudent(studentId);
+            messagePrinter.printSuccessMessage();
         } catch (StudentNotFoundException e) {
-            MessagePrinter messagePrinter = new MessagePrinter();
             messagePrinter.printErrorMessage(e.getMessage());
         }
     }

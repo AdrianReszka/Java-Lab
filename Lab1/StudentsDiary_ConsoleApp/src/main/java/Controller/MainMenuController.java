@@ -92,21 +92,31 @@ public class MainMenuController {
      */
     private void addStudent() {
         int id = menuView.getStudentIdInput();
+        if (id == -1) {
+            return;
+        }
+
         String name = menuView.getStudentNameInput();
         String surname = menuView.getStudentSurnameInput();
         studentListController.createNewStudent(id, name, surname);
+        System.out.println("Student " + name + " " + surname + " added successfully.");
     }
+
 
     /**
      * Adds a grade to an existing student using inputs from the view.
      */
     private void addGradeToStudent() {
         int studentId = menuView.getStudentIdInput();
+        if (studentId == -1) {
+            return;
+        }
         String grade = menuView.getGradeInput().replace(',', '.');
         String teacher = menuView.getTeacherInput();
         String subject = menuView.getSubjectInput();
         studentListController.addGradeToStudent(studentId, grade, teacher, subject);
     }
+
 
     /**
      * Removes a student based on the provided ID.
