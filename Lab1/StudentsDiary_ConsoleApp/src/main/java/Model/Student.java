@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * It provides methods to manage the student's data, including adding and removing grades.
  *
  * @author Adrian Reszka
- * @version 2.1.3
+ * @version 1.0
  */
 public class Student {
 

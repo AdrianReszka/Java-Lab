@@ -4,7 +4,7 @@ package Model;
  * Exception thrown when an invalid grade format is encountered.
  *
  * @author Adrian Reszka
- * @version 1.0.1
+ * @version 1.0
  */
 public class InvalidGradeFormatException extends Exception {
 

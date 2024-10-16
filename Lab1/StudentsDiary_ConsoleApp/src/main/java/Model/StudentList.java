@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * It also allows saving and loading student data, including their grades, from a file.
  *
  * @author Adrian Reszka
- * @version 3.1.5
+ * @version 1.0
  */
 public class StudentList {
 
@@ -16,7 +16,15 @@ public class StudentList {
      * A list of all students in the system. It is initialized as an empty list and is filled
      * with student objects when students are added.
      */
-    public ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Student> students = new ArrayList<>();
+
+    /**
+     * Method used to get current list of students
+     * @return latest list of students
+     */
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
 
     /**
      * Adds a new student to the list.

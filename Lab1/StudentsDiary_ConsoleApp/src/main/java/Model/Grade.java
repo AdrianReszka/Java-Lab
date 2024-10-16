@@ -4,7 +4,7 @@ package Model;
  * The Grade class represents a student's grade, including the value of it, the teacher who gave the grade, and the subject.
  *
  * @author Adrian Reszka
- * @version 1.1.5
+ * @version 1.0
  */
 public class Grade {
 

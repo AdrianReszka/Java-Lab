@@ -8,7 +8,7 @@ import View.StudentView;
  * It allows modification of student data and updates the view accordingly.
  *
  * @author Adrian Reszka
- * @version 1.1.2
+ * @version 1.0
  */
 public class StudentController {
 

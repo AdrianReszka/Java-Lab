@@ -12,7 +12,7 @@ import java.util.Scanner;
  * It coordinates actions between the view and the student list controller.
  *
  * @author Adrian Reszka
- * @version 1.1.4
+ * @version 1.0
  */
 public class MainMenuController {
 
@@ -66,6 +66,7 @@ public class MainMenuController {
      * Starts the main loop of the application, displaying the menu and handling user choices.
      */
     public void start() {
+        messagePrinter = new MessagePrinter();
         studentListController.loadStudentListFromFile(filename);
 
         boolean running = true;
@@ -101,7 +102,7 @@ public class MainMenuController {
                     running = false;
                     break;
                 default:
-                    menuView.showInvalidOptionMessage();
+                    messagePrinter.printErrorMessage("Invalid option. Please try again.");
             }
         }
     }
@@ -288,7 +289,8 @@ public class MainMenuController {
      * Exits the program by saving the student data to a file and showing an exit message.
      */
     private void exitProgram() {
+        messagePrinter = new MessagePrinter();
         studentListController.saveStudentListToFile(filename);
-        menuView.showExitMessage();
+        messagePrinter.printInputMessage("Exiting program...");
     }
 }

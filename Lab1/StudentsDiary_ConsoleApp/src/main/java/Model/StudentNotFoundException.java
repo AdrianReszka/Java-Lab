@@ -4,7 +4,7 @@ package Model;
  * Exception thrown when a student with a specific ID cannot be found in the student list.
  *
  * @author Adrian Reszka
- * @version 1.0.1
+ * @version 1.0
  */
 public class StudentNotFoundException extends Exception {
 

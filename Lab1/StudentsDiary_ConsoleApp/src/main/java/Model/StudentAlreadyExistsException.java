@@ -4,7 +4,7 @@ package Model;
  * Exception thrown when student with specified ID already exists.
  *
  * @author Adrian Reszka
- * @version 1.0.1
+ * @version 1.0
  */
 public class StudentAlreadyExistsException extends Exception {
 

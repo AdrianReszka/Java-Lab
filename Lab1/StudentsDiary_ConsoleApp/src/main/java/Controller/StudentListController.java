@@ -11,7 +11,7 @@ import java.io.IOException;
  * It includes functionalities like adding, removing, and editing students and their grades.
  *
  * @author YourName
- * @version 1.0.0
+ * @version 1.0
  */
 public class StudentListController {
 
@@ -179,7 +179,7 @@ public class StudentListController {
      * Updates the view with the current list of students.
      */
     public void updateView() {
-        studentListView.printStudents(studentList.students);
+        studentListView.printStudents(studentList.getStudents());
     }
 
     /**

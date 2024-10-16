@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * It prints a list of all students with their respective information.
  *
  * @author YourName
- * @version 1.0.1
+ * @version 1.0
  */
 public class StudentListView {
 

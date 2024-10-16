@@ -11,7 +11,7 @@ import View.StudentListView;
  * It sets up the main menu and controls the interaction between the user and the student list.
  *
  * @author Adrian Reszka
- * @version 1.3.2
+ * @version 1.0
  */
 public class StudentsDiary_ConsoleApp {
 

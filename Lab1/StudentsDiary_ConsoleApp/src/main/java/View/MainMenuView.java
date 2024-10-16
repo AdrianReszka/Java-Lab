@@ -8,7 +8,7 @@ import java.util.Scanner;
  * removing, and editing student data and grades.
  *
  * @author Adrian Reszka
- * @version 1.1.1
+ * @version 1.0
  */
 public class MainMenuView {
 
@@ -34,17 +34,5 @@ public class MainMenuView {
         System.out.println("7. Edit student grade");
         System.out.println("8. Exit");
         System.out.print("Choose an option: ");
-    }
-
-
-    public void showInvalidOptionMessage() {
-        System.out.println("Invalid option. Please try again.");
-    }
-
-    /**
-     * Displays an exit message when the user chooses to exit the application.
-     */
-    public void showExitMessage() {
-        System.out.println("Exiting program...");
     }
 }

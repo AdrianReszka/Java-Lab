@@ -7,7 +7,7 @@ import Model.Student;
  * including their personal data and grades.
  *
  * @author Adrian Reszka
- * @version 1.1.0
+ * @version 1.0
  */
 public class StudentView {
 

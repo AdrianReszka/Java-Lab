@@ -5,7 +5,7 @@ package Model;
  * and in controller classes
  *
  * @author Adrian Reszka
- * @version 1.0.1
+ * @version 1.0
  */
 
 public class MessagePrinter {
